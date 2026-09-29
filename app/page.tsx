@@ -1,15 +1,15 @@
 import { CartShell } from "@/components/CartShell";
 import { getTemplate } from "@/components/templates/registry";
-import { getProducts, getSite } from "@/lib/data";
+import { getSiteBundle } from "@/lib/data";
 import { getSiteSlug } from "@/lib/site";
 
 export const revalidate = 60;
 
 export default async function Home() {
   const slug = getSiteSlug();
-  const site = await getSite(slug);
+  const bundle = await getSiteBundle(slug);
 
-  if (!site) {
+  if (!bundle) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#eef1f4] p-8">
         <h1 className="font-[family-name:var(--font-catalog-display)] text-2xl text-neutral-900">
@@ -22,12 +22,18 @@ export default async function Home() {
     );
   }
 
-  const products = await getProducts(site.id);
+  const { site, products, sections, modules, pages } = bundle;
   const Template = getTemplate(site.template_key);
 
   return (
     <CartShell siteSlug={site.slug} whatsappNumber={site.whatsapp_number}>
-      <Template site={site} products={products} />
+      <Template
+        site={site}
+        products={products}
+        sections={sections}
+        pages={pages}
+        modules={modules}
+      />
     </CartShell>
   );
 }

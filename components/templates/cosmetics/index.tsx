@@ -1,9 +1,15 @@
 import type { CSSProperties } from "react";
-import { ProductGrid } from "@/components/ProductGrid";
+import { SectionRenderer } from "@/components/sections/SectionRenderer";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { TemplateProps } from "@/components/templates/types";
 
-export function CosmeticsTemplate({ site, products }: TemplateProps) {
+export function CosmeticsTemplate({
+  site,
+  products,
+  sections,
+  pages,
+}: TemplateProps) {
   const pageStyle = {
     "--color-primary": site.primary_color,
     "--color-secondary": site.secondary_color,
@@ -15,29 +21,12 @@ export function CosmeticsTemplate({ site, products }: TemplateProps) {
   } as CSSProperties;
 
   return (
-    <div className="min-h-screen text-neutral-900" style={pageStyle}>
-      <SiteHeader site={site} />
-
-      <main className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-12">
-        <div className="mb-7 flex items-end justify-between gap-4 sm:mb-9">
-          <div>
-            <h2 className="font-[family-name:var(--font-catalog-display)] text-2xl tracking-tight text-neutral-900 sm:text-3xl">
-              Productos
-            </h2>
-            <p className="mt-1 font-[family-name:var(--font-catalog-sans)] text-sm text-neutral-500">
-              {products.length} disponible
-              {products.length === 1 ? "" : "s"}
-            </p>
-          </div>
-          <span
-            className="hidden h-1.5 w-16 rounded-full sm:block"
-            style={{ backgroundColor: "var(--color-secondary)" }}
-            aria-hidden
-          />
-        </div>
-
-        <ProductGrid products={products} />
+    <div className="flex min-h-screen flex-col text-neutral-900" style={pageStyle}>
+      <SiteHeader site={site} pages={pages} />
+      <main className="flex-1">
+        <SectionRenderer sections={sections} site={site} products={products} />
       </main>
+      <SiteFooter site={site} />
     </div>
   );
 }

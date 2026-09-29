@@ -1,10 +1,16 @@
 import type { CSSProperties } from "react";
-import { ProductGrid } from "@/components/ProductGrid";
+import { SectionRenderer } from "@/components/sections/SectionRenderer";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { TemplateProps } from "@/components/templates/types";
 
 /** Variación visual inicial (inciensos) — tipografía serif suave y tarjetas más rectas. */
-export function IncenseTemplate({ site, products }: TemplateProps) {
+export function IncenseTemplate({
+  site,
+  products,
+  sections,
+  pages,
+}: TemplateProps) {
   const pageStyle = {
     "--color-primary": site.primary_color,
     "--color-secondary": site.secondary_color,
@@ -17,34 +23,14 @@ export function IncenseTemplate({ site, products }: TemplateProps) {
 
   return (
     <div
-      className="min-h-screen text-neutral-900 [&_article]:rounded-sm [&_article]:shadow-none [&_button]:rounded-sm"
+      className="flex min-h-screen flex-col text-neutral-900 [&_article]:rounded-sm [&_article]:shadow-none [&_button]:rounded-sm"
       style={pageStyle}
     >
-      <SiteHeader site={site} />
-
-      <main className="mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 sm:py-12">
-        <div className="mb-7 flex items-end justify-between gap-4 border-b border-neutral-800/10 pb-5 sm:mb-9">
-          <div>
-            <p className="font-[family-name:var(--font-catalog-sans)] text-[0.65rem] font-medium uppercase tracking-[0.28em] text-neutral-500">
-              Colección
-            </p>
-            <h2 className="mt-1 font-[family-name:var(--font-catalog-display)] text-2xl italic tracking-tight text-neutral-900 sm:text-3xl">
-              Productos
-            </h2>
-            <p className="mt-1 font-[family-name:var(--font-catalog-sans)] text-sm text-neutral-500">
-              {products.length} disponible
-              {products.length === 1 ? "" : "s"}
-            </p>
-          </div>
-          <span
-            className="hidden h-px w-24 sm:block"
-            style={{ backgroundColor: "var(--color-primary)" }}
-            aria-hidden
-          />
-        </div>
-
-        <ProductGrid products={products} />
+      <SiteHeader site={site} pages={pages} />
+      <main className="flex-1">
+        <SectionRenderer sections={sections} site={site} products={products} />
       </main>
+      <SiteFooter site={site} variant="incense" />
     </div>
   );
 }

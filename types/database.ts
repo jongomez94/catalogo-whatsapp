@@ -23,3 +23,40 @@ export type Product = {
   is_active: boolean;
   created_at: string;
 };
+
+export type SiteSection = {
+  id: string;
+  site_id: string;
+  section_type: string;
+  position: number;
+  is_active: boolean;
+  config: Record<string, unknown>;
+  created_at?: string;
+};
+
+export type SiteModule = {
+  id: string;
+  site_id: string;
+  module_key: string;
+  enabled: boolean;
+  config: Record<string, unknown>;
+  created_at?: string;
+};
+
+export type SitePage = {
+  id: string;
+  site_id: string;
+  slug: string;
+  title: string;
+  position: number;
+  is_active: boolean;
+  content: string | null;
+  created_at?: string;
+};
+
+export type SiteModuleState = {
+  enabled: boolean;
+  config: Record<string, unknown>;
+};
+
+export type SiteModulesMap = Record<string, SiteModuleState>;

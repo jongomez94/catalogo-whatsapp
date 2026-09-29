@@ -42,9 +42,22 @@ npm start
 
 Un solo proyecto Supabase sirve a varios negocios:
 
-- **`sites`**: un registro por cliente (`slug`, `business_name`, `whatsapp_number`, colores, `logo_url`, etc.).
+- **`sites`**: un registro por cliente (`slug`, `business_name`, `whatsapp_number`, colores, `logo_url`, `template_key`, etc.).
 - **`products`**: productos con `site_id` apuntando al sitio dueño. Solo se muestran los `is_active = true`, ordenados por `position`.
+- **`site_sections`**: bloques de contenido ordenados por `position`. La plantilla define look & feel; las secciones definen qué aparece y en qué orden.
 - **Storage `product-images`**: bucket público para fotos. En `products.image_url` guardá el **path relativo** (ej. `mi-negocio/producto.jpg`); el helper `lib/storage.ts` arma la URL pública.
+
+### Secciones (`site_sections`)
+
+Cada fila activa se renderiza en orden. `section_type` conocidos:
+
+| `section_type` | `config` (jsonb) |
+| --- | --- |
+| `hero` | `{ "title", "subtitle", "background_image" }` |
+| `product_grid` | `{ "title?", "subtitle?" }` — usa los productos del sitio |
+| `custom_html` | `{ "html": "<p>...</p>" }` — se sanitiza antes de renderizar |
+
+Ejemplo mínimo para un catálogo clásico: una sección `product_grid` con `is_active = true`.
 
 Cada deploy de Next.js recibe un `NEXT_PUBLIC_SITE_SLUG`. Al cargar, el server busca ese slug en `sites` y después sus productos. Así el mismo repo sirve N clientes sin forks de lógica.
 

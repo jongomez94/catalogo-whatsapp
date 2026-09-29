@@ -1,12 +1,14 @@
 import Image from "next/image";
-import type { Site } from "@/types/database";
+import type { Site, SitePage } from "@/types/database";
 import { CartButton } from "@/components/CartButton";
+import { SiteNav } from "@/components/SiteNav";
 
 type SiteHeaderProps = {
   site: Site;
+  pages?: SitePage[];
 };
 
-export function SiteHeader({ site }: SiteHeaderProps) {
+export function SiteHeader({ site, pages = [] }: SiteHeaderProps) {
   return (
     <header className="relative overflow-hidden border-b border-[color:color-mix(in_srgb,var(--color-secondary)_28%,transparent)]">
       <div
@@ -20,7 +22,7 @@ export function SiteHeader({ site }: SiteHeaderProps) {
         }}
       />
 
-      <div className="relative mx-auto flex w-full max-w-6xl items-center gap-4 px-5 py-8 sm:gap-5 sm:px-8 sm:py-10">
+      <div className="relative mx-auto flex w-full max-w-6xl items-center gap-3 px-5 py-8 sm:gap-5 sm:px-8 sm:py-10">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-white/70 ring-1 ring-black/5 sm:h-16 sm:w-16">
           {site.logo_url ? (
             <Image
@@ -51,7 +53,10 @@ export function SiteHeader({ site }: SiteHeaderProps) {
           </h1>
         </div>
 
-        <CartButton />
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <SiteNav pages={pages} />
+          <CartButton />
+        </div>
       </div>
     </header>
   );
